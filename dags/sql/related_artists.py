@@ -8,12 +8,12 @@ host_fastapi = Variable.get("host_fastapi")
 port_fastapi = Variable.get("port_fastapi")
 endpoint = "related_artists"
 
-date = "{{ (execution_date + macros.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
+date = "{{ (execution_date + macros.timedelta(hours=33)).strftime('%Y-%m-%d') }}"
 
 default_args = {
     'owner': 'hooniegit',
     'depends_on_past': True,
-    'start_date': datetime(2023,12,24)
+    'start_date': datetime(2023,12,25)
 }
 
 dag = DAG(

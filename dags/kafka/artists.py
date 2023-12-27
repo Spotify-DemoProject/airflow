@@ -6,9 +6,9 @@ from airflow.operators.empty import EmptyOperator
 
 host_fastapi = Variable.get("host_fastapi")
 port_fastapi = Variable.get("port_fastapi")
-endpoint = "featured_playlists"
+endpoint = "artists"
 
-date = "{{ (execution_date + macros.timedelta(hours=33)).strftime('%Y-%m-%d') }}"
+date = "{{ (execution_date + macros.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
 
 default_args = {
     'owner': 'hooniegit',
@@ -17,11 +17,11 @@ default_args = {
 }
 
 dag = DAG(
-    endpoint,
+    f"kafka_{endpoint}",
 	default_args=default_args,
-	tags=['spotify', 'extract', 'sql', endpoint],
+	tags=['spotify', 'publish', 'kafka', endpoint],
 	max_active_runs=1,
-	schedule_interval="5 15 * * *")
+	schedule_interval="10 15 * * *")
 
 start = EmptyOperator(
 	task_id = 'start',
@@ -30,7 +30,7 @@ start = EmptyOperator(
 
 curl = BashOperator(
     task_id="curl",
-    bash_command=f"curl 'http://{host_fastapi}:{port_fastapi}/sql/{endpoint}'",
+    bash_command=f"curl 'http://{host_fastapi}:{port_fastapi}/kafka/{endpoint}?insert_date={date}'",
     dag=dag
 )
 
