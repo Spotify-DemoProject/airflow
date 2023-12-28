@@ -8,7 +8,7 @@ host_fastapi = Variable.get("host_fastapi")
 port_fastapi = Variable.get("port_fastapi")
 endpoint = "albums"
 
-date = "{{ (execution_date + macros.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
+date = "{{ (execution_date - macros.timedelta(hours=15)).strftime('%Y-%m-%d') }}"
 
 default_args = {
     'owner': 'hooniegit',
@@ -17,9 +17,9 @@ default_args = {
 }
 
 dag = DAG(
-    f"kafka_{endpoint}",
+    f"parquet_{endpoint}",
 	default_args=default_args,
-	tags=['spotify', 'publish', 'kafka', endpoint],
+	tags=['spotify', 'upload', 'parquet', 's3', endpoint],
 	max_active_runs=1,
 	schedule_interval="10 17 * * *")
 
@@ -30,7 +30,7 @@ start = EmptyOperator(
 
 curl = BashOperator(
     task_id="curl",
-    bash_command=f"curl 'http://{host_fastapi}:{port_fastapi}/kafka/{endpoint}?insert_date={date}'",
+    bash_command=f"curl 'http://{host_fastapi}:{port_fastapi}/parquet/{endpoint}?insert_date={date}'",
     dag=dag
 )
 
@@ -38,7 +38,7 @@ send_noti = BashOperator(
     task_id='send.noti',
     bash_command=f"""
     curl -X POST -H 'Authorization: Bearer imq0ABNavwxOZyYBYRJ6kFivrLcW2vwaUjK1sBtj4AY' \
-    -F 'message= kafka/{endpoint} DAG {date} 스케줄 동작 중 오류 발생' \
+    -F 'message= parquet/{endpoint} DAG {date} 스케줄 동작 중 오류 발생' \
     https://notify-api.line.me/api/notify
     """,
     dag=dag,

@@ -13,7 +13,7 @@ date = "{{ (execution_date + macros.timedelta(hours=9)).strftime('%Y-%m-%d') }}"
 default_args = {
     'owner': 'hooniegit',
     'depends_on_past': True,
-    'start_date': datetime(2023,12,26)
+    'start_date': datetime(2023,12,27)
 }
 
 dag = DAG(
@@ -38,7 +38,7 @@ send_noti = BashOperator(
     task_id='send.noti',
     bash_command=f"""
     curl -X POST -H 'Authorization: Bearer imq0ABNavwxOZyYBYRJ6kFivrLcW2vwaUjK1sBtj4AY' \
-    -F 'message= {endpoint} DAG {date} 스케줄 동작 중 오류 발생' \
+    -F 'message= kafka/{endpoint} DAG {date} 스케줄 동작 중 오류 발생' \
     https://notify-api.line.me/api/notify
     """,
     dag=dag,
