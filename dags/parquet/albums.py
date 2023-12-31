@@ -8,12 +8,12 @@ host_fastapi = Variable.get("host_fastapi")
 port_fastapi = Variable.get("port_fastapi")
 endpoint = "albums"
 
-date = "{{ (execution_date - macros.timedelta(hours=15)).strftime('%Y-%m-%d') }}"
+date = "{{ (execution_date - macros.timedelta(hours=33)).strftime('%Y-%m-%d') }}"
 
 default_args = {
     'owner': 'hooniegit',
     'depends_on_past': True,
-    'start_date': datetime(2023,12,27)
+    'start_date': datetime(2023,12,28)
 }
 
 dag = DAG(
@@ -21,7 +21,7 @@ dag = DAG(
 	default_args=default_args,
 	tags=['spotify', 'upload', 'parquet', 's3', endpoint],
 	max_active_runs=1,
-	schedule_interval="10 17 * * *")
+	schedule_interval="0 22 * * *")
 
 start = EmptyOperator(
 	task_id = 'start',

@@ -13,7 +13,7 @@ date = "{{ (execution_date + macros.timedelta(hours=33)).strftime('%Y-%m-%d') }}
 default_args = {
     'owner': 'hooniegit',
     'depends_on_past': True,
-    'start_date': datetime(2023,12,27)
+    'start_date': datetime(2023,12,29)
 }
 
 dag = DAG(
@@ -21,7 +21,7 @@ dag = DAG(
 	default_args=default_args,
 	tags=['spotify', 'load', 'json', endpoint],
 	max_active_runs=1,
-	schedule_interval="0 23 * * *")
+	schedule_interval="30 17 * * *")
 
 start = EmptyOperator(
 	task_id = 'start',
