@@ -13,6 +13,11 @@ https://docs.docker.com/engine/install/ubuntu/
 ```
 sudo docker compose up -d
 ```
+<br>
 
 # Server Port
 - Airflow Dashboard : 8888
+<br><br>
+
+# Result
+<img width="761" alt="스크린샷 2023-12-30 오후 9 39 34" src="https://github.com/Spotify-DemoProject/airflow/assets/130134750/b4e367bf-1aab-407e-b3c8-c92aa30ed74f">
