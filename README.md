@@ -13,7 +13,6 @@ https://docs.docker.com/engine/install/ubuntu/
 ```
 sudo docker compose up -d
 ```
-<br><br>
 
 # Server Port
 - Airflow Dashboard : 8888
